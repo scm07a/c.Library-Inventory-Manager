@@ -1,5 +1,6 @@
 #ifndef LIBRARY_H
 #define LIBRARY_H
+#define MAX_BOOKS 100
 
 typedef struct{
     int id;
@@ -9,9 +10,13 @@ typedef struct{
     int avaliable;
 } Book;
 
+
+
+
 void addBook(Book* books, int* bookCount);
-void viewOneBook(Book* books, int bookCount);
-void viewBook(Book* books, int bookCount);
+void printBook(Book* books, int bookCount);
+void searchBook(Book* books, int bookChoice);
+void viewAllBooks(Book* books, int bookCount);
 
 
 #endif
