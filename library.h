@@ -9,14 +9,9 @@ typedef struct{
     double price;
     int avaliable;
 } Book;
-
-
-
-
 void addBook(Book* books, int* bookCount);
-void printBook(Book* books, int bookCount);
+void printBook(Book* books);
 void searchBook(Book* books, int bookChoice);
 void viewAllBooks(Book* books, int bookCount);
-
 
 #endif

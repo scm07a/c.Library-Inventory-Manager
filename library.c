@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "ValidIO.h"
 
-#define MAX_BOOKS 100
+#define MAX_BOOKS 100000
 typedef struct{
     int id;
     char title[100];
@@ -11,23 +11,21 @@ typedef struct{
     int avaliable;
 } Book;
 
-Book books[MAX_BOOKS];
-int bookCount=0;
 
 void addBook(Book* books, int* bookCount){
-
+    if (*bookCount>=MAX_BOOKS){
+        printf("The System Is Full.\n");
+        return;
+    }
     Book* b=&books[*bookCount];  
     printf("Enter Title Of The Book:");
-    scanf("%[^\n]",b->title);
-    clearBuffer();
+    strInput(b->title,sizeof(b->title));
 
     printf("Enter Author Of The Book:");
-    scanf("%[^\n]",b->author);
-    clearBuffer();
+    strInput(b->author,sizeof(b->author));
 
     printf("Enter Price Of The Book:");
-    scanf("%lf",&b->price);
-    clearBuffer();
+    doubleInput(&b->price);
 
     b->id=*bookCount+1;
     (*bookCount)++;
@@ -42,10 +40,11 @@ void printBook(Book* b){
     printf("Availability: %s\n",b->avaliable ? "Avaliable": "UnAvailable");
 }
 
+//TODO: Work On This Feature Next
 void searchBook(Book* books, int bookChoice){
     
 }
-//Todo: Fix Function
 void viewAllBooks(Book* books, int bookCount){
-    for (int i=0;i<bookCount;i++) printBook(books); 
+    for (size_t i=0;i<bookCount;i++) printBook(&books[i]); 
 }
+
