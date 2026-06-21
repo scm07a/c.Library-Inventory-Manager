@@ -29,6 +29,7 @@ int main(){
         switch(choice){
             case 0:
                 isRunning=0;
+                 break;
             case 1:
                 addBook(books,&bookCount);
                 break;
