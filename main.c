@@ -5,9 +5,11 @@
 
 int main(){
     
-    Book* books=(Book*)malloc(MAX_BOOKS*sizeof(books));
+    Book* books=(Book*)malloc(MAX_BOOKS*sizeof(*books));
     int bookCount=0;
-    while(1){
+    int isRunning=1;
+    
+    while(isRunning){
         int choice;
         printf("=====Library Inventory Manager=====\n");
         printf("0.Exit.\n");
@@ -23,7 +25,8 @@ int main(){
         } 
 
         switch(choice){
-            case 0: return 0;
+            case 0:
+                isRunning=0;
             case 1:
                 addBook(books,&bookCount);
                 break;
@@ -31,7 +34,7 @@ int main(){
                 viewAllBooks(books,bookCount);
                 break;
             case 3:
-                //* Coming Soon...
+                searchBook(books,bookCount);
                 break;
             default:
                 printErr();
