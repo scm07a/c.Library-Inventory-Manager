@@ -25,3 +25,7 @@ int doubleInput(double* value){
 void printErr(){
     printf("Invalid Input Try Again\n");
 }
+void comingSoon(){
+    //* Will Add A Comment Saying If It's Next Commit Next To Each Feature
+    printf("Coming Soon.\n");
+}

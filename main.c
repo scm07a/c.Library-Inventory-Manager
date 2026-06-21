@@ -16,6 +16,8 @@ int main(){
         printf("1.Add Book.\n");
         printf("2.View Books.\n");
         printf("3.Search For A Book.\n");
+        printf("4.Delete Book.\n");//TODO: Next Commit
+        printf("5.View Deleted Books.\n");//TODO: Next Commit
 
         printf("Choice:");
         
@@ -35,6 +37,12 @@ int main(){
                 break;
             case 3:
                 searchBook(books,bookCount);
+                break;
+            case 4:
+                comingSoon();
+                break;
+            case 5:
+                comingSoon();
                 break;
             default:
                 printErr();

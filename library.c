@@ -100,6 +100,20 @@ void searchBook(Book* books, int bookCount){
 }
 
 void viewAllBooks(Book* books, int bookCount){
-    for (size_t i=0;i<bookCount;i++) printBook(&books[i]); 
+    if (bookCount==0){
+        printf("There Aren't Any Books Logged Into The System!\n");
+        return;
+    }
+
+    int found=0;
+    for (size_t i=0;i<bookCount;i++){
+        if (!books[i].isDeleted){
+            printBook(&books[i]);
+            printf("\n");//* To Seperate Each Book
+            found=1;
+        }
+    }
+    if (!found)
+        printf("Couldn't Find Any Books To Display\n");
 }
 
