@@ -4,9 +4,16 @@
 #include "library.h"
 
 //*Return Index Of A Book By Searching By ID
-int linSearch(Book* books,int bookCount,int bookChoiceID){
+int nonDeletedSearch(Book* books,int bookCount,int bookChoiceID){
     for (size_t i=0;i<bookCount;i++){
         if (books[i].id==bookChoiceID && !books[i].isDeleted) return i;
+    }
+    return -1;
+}
+
+int deletedSearch(Book* books,int bookCount,int bookChoiceID){
+    for (size_t i=0;i<bookCount;i++){
+        if (books[i].id==bookChoiceID && books[i].isDeleted) return i;
     }
     return -1;
 }
@@ -43,6 +50,11 @@ void printBook(Book* b){
 void deleteBook(Book* b){
     b->isDeleted=1;
     printf("Book Deleted!\n");
+}
+
+void restoreBook(Book*b){
+    b->isDeleted=0;
+    printf("Book Restored!\n");
 }
 
 void borrowBook(Book* b){
@@ -99,7 +111,7 @@ int searchBook(Book* books, int bookCount){
         printf("Search Book By ID:");
     }
 
-    int bookIndex=linSearch(books,bookCount,bookChoiceID);
+    int bookIndex=nonDeletedSearch(books,bookCount,bookChoiceID);
 
     if (bookIndex==-1){
         printf("Couldn't Find The Book\n");
@@ -159,10 +171,11 @@ void viewAllBooks(Book* books, int bookCount){
     if (!found)
         printf("Couldn't Find Any Books To Display\n");
 }
-void viewDeletedBooks(Book* books, int bookCount){
+
+int viewDeletedBooks(Book* books, int bookCount){
     if (bookCount==0){
         printf("There Aren't Any Books Logged Into The System!\n");
-        return;
+        return 0;
     }
     int found=0;
     for(size_t i=0;i<bookCount;i++){
@@ -172,6 +185,33 @@ void viewDeletedBooks(Book* books, int bookCount){
             found=1;
         }
     }
-    if(!found)
+
+    if(!found){
         printf("Couldn't Find Any Books To Display\n");
+        return 0;
+    }
+    
+    int choice;
+    int change=0;
+    
+    printf("Would You Like To Restore Any Books?(1.Yes|2.No):");
+    while(!intInput(&choice)||choice<1||choice>2){
+        printErr();
+        printf("Would Like To Restore Any Books?(1.Yes|2.No):");
+    }
+    if (choice==2) return change;
+    int bookChoiceID;
+    printf("Enter The Deleted Book ID:");
+    while(!intInput(&bookChoiceID) || bookChoiceID<=0){
+        printErr();
+        printf("Enter The Deleted Book ID:");
+    }
+    int bookIndex=deletedSearch(books,bookCount,bookChoiceID);
+    if (bookIndex==-1){
+        printf("Couldn't Find A Deleted Book With That ID...\n");
+        return change;
+    }
+    restoreBook(&books[bookIndex]);
+    change=1;
+    return change;
 }
