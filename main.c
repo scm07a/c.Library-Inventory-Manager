@@ -8,15 +8,15 @@ int main(){
     Book* books=(Book*)malloc(MAX_BOOKS*sizeof(*books));
     int bookCount=0;
     int isRunning=1;
-    // loadData(books,&bookCount);
+    loadData(books,&bookCount);
     while(isRunning){
         int choice;
         printf("\n=====Library Inventory Manager=====\n");
-        printf("0.Exit.\n");//* Done
-        printf("1.Add Book.\n");//* Done
-        printf("2.View Books.\n");//* Done
-        printf("3.Search For A Book.\n");//* Done
-        printf("4.View Deleted Books.\n");//* Done
+        printf("0.Exit.\n");
+        printf("1.Add Book.\n");
+        printf("2.View Books.\n");
+        printf("3.Search For A Book.\n");
+        printf("4.View Deleted Books.\n");
         printf("5.Save Data.\n");
         printf("6.Reset Data\n");
 
@@ -33,25 +33,25 @@ int main(){
                 break;
             case 1:
                 addBook(books,&bookCount);
+                saveData(books,bookCount);
                 break;
             case 2:
                 viewAllBooks(books,bookCount);
                 break;
             case 3:
-                searchBook(books,bookCount);
+                if(searchBook(books,bookCount))
+                    saveData(books,bookCount);
                 break;
             case 4:
-                comingSoon();
-                break;
-            case 5:
                 viewDeletedBooks(books,bookCount);
                 break;
+            case 5:
+                saveData(books,bookCount);
+                break;
             case 6:
-                comingSoon();
+                resetData(books,&bookCount);
                 break;
-            case 7:
-                comingSoon();
-                break;
+
             default:
                 printErr();
                 break;

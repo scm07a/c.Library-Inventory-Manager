@@ -1,47 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ValidIO.h"
-
-#define MAX_BOOKS 100000
-typedef struct{
-    int id;
-    char title[100];
-    char author[50];
-    double price;
-    int avaliable;
-    int isDeleted;
-} Book;
-
-//* SafeGuard Incase IDs become unsorted
-void bubSort(Book* books, int bookCount){
-    for (size_t i=0;i<bookCount-1;i++){
-        for (size_t j =0;j<bookCount-i-1;j++){
-            if (books[j].id > books[j+1].id){
-                Book temp=books[j];//* Swapping Whole Structs
-                books[j]=books[j+1];
-                books[j+1]=temp;
-            }
-        }
-    }
-}
+#include "library.h"
 
 //*Return Index Of A Book By Searching By ID
-int binSearch(Book* books,int bookCount,int bookChoiceID){
-    int left=0, right=bookCount-1;
-    while(left<=right){
-        int mid=left+(right-left)/2;
-        if(books[mid].id == bookChoiceID && books[mid].isDeleted == 0) return mid;
-        else if (books[mid].id > bookChoiceID) right=mid-1;
-        else if (books[mid].id < bookChoiceID) left= mid+1;
+int linSearch(Book* books,int bookCount,int bookChoiceID){
+    for (size_t i=0;i<bookCount;i++){
+        if (books[i].id==bookChoiceID && !books[i].isDeleted) return i;
     }
     return -1;
-}
-
-int maxID(Book*b, int bookCount){
-    int max=-999999;
-    for (size_t i=0;i<bookCount;i++)
-        if (b[i].id>max) max=b[i].id;
-    return max;
 }
 
 void addBook(Book* books, int* bookCount){
@@ -62,7 +29,7 @@ void addBook(Book* books, int* bookCount){
 
     b->id=*bookCount+1;
     (*bookCount)++;
-    b->avaliable=1;
+    b->available=1;
     b->isDeleted=0;
 }
 void printBook(Book* b){
@@ -70,7 +37,7 @@ void printBook(Book* b){
     printf("Title: %s\n",b->title);
     printf("Author: %s\n",b->author);
     printf("Price: %.2f\n",b->price);
-    printf("Availability: %s\n",b->avaliable ? "Avaliable": "UnAvailable");
+    printf("Availability: %s\n",b->available ? "Available": "UnAvailable");
 }
 
 void deleteBook(Book* b){
@@ -78,45 +45,102 @@ void deleteBook(Book* b){
     printf("Book Deleted!\n");
 }
 
-void searchBook(Book* books, int bookCount){
+void borrowBook(Book* b){
+    b->available=0;
+    printf("Status Logged UnAvailable...\n");
+}
+
+void returnBook(Book* b){
+    b->available=1;
+    printf("Status Logged Available....\n");
+}
+
+void editBook(Book* b){
     int choice;
+    printf("1.Name.\n2.Author.\n3.Price.\n");
+    printf("What Do You Want To Edit:");
+    while(!intInput(&choice) || choice<=0 || choice>3){
+        printErr();
+        printf("What Do You Want To Edit:");
+    }
+    switch(choice){
+        case 1:
+            printf("Enter Title Of The Book:");
+            strInput(b->title,sizeof(b->title));
+            break;
+        case 2:
+            printf("Enter Author Of The Book:");
+            strInput(b->author,sizeof(b->author));
+            break;
+        case 3:
+            printf("Enter Price Of The Book:");
+            doubleInput(&b->price);
+            break;
+        default:
+            printErr();
+            break;
+    }
+
+}
+
+int searchBook(Book* books, int bookCount){
+    int choice;
+    int change=0;//* Flag for if any data changed
     if (bookCount==0){
         printf("There Aren't Any Books Logged Into The System!\n");
-        return;
+        return 0;
     }
 
     int bookChoiceID;
-    int max_ID=maxID(books,bookCount);
-    printf("Search Book By ID(1-%d):",max_ID);
     
-
-    while(!intInput(&bookChoiceID) || bookChoiceID>max_ID || bookChoiceID<=0){
+    printf("Search Book By ID:");
+    while(!intInput(&bookChoiceID) || bookChoiceID<=0){
         printErr();
-        printf("Search Book By ID(1-%d):",max_ID);
+        printf("Search Book By ID:");
     }
-    bubSort(books,bookCount);
-    int bookIndex=binSearch(books,bookCount,bookChoiceID);
+
+    int bookIndex=linSearch(books,bookCount,bookChoiceID);
 
     if (bookIndex==-1){
         printf("Couldn't Find The Book\n");
-        return;
+        return 0;
     }
+
     printBook(&books[bookIndex]);
-    printf("\n0.Delete.\n1.%s\n2.Edit Details.\n",books[bookIndex].avaliable ? "Borrow" : "Return"); //TODO: Borrow & Edit Option
+    printf("\n0.Return To Main Menu.\n1.Delete.\n2.%s\n3.Edit Details.\n",books[bookIndex].available ? "Borrow" : "Return");
     printf("Choice:");
-    while(!intInput(&choice) || choice>2 || choice<0){
+    while(!intInput(&choice) || choice>3 || choice<0){
         printErr();
         printf("Choice:");
     }
 
     switch(choice){
         case 0:
-            deleteBook(&books[bookIndex]);
-            break;
+            change=0;
+            return change;
         case 1:
-            comingSoon();
+            deleteBook(&books[bookIndex]);
+            change=1;
+            break;
+        case 2:
+            if (books[bookIndex].available){
+                borrowBook(&books[bookIndex]);
+                change=1;
+            }
+            else{
+                returnBook(&books[bookIndex]);
+                change=1;
+            }
+            break;
+        case 3:
+            editBook(&books[bookIndex]);
+            change=1;
+            break;
+        default:
+            printErr();
             break;
     }
+    return change;
 }
 void viewAllBooks(Book* books, int bookCount){
     if (bookCount==0){

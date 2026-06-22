@@ -36,10 +36,48 @@ void comingSoon(){
     printf("Coming Soon.\n");
 }
 
-// void saveData(Book* books,int*){
+void saveData(Book* books,int bookCount){
+    FILE* file=fopen("libr.dat","wb");
+    if (file == NULL){
+        printf("Couldn't open file for saving.\n");
+        return;
+    }
 
-// }
+    fwrite(&bookCount,sizeof(int),1,file);
+    fwrite(books,sizeof(Book),bookCount,file);
+    fclose(file);
+    printf("Data Saved Successfully.\n");
+}
 
-//// void loadData(Book* books,int*){
+void loadData(Book* books,int*bookCount){
+    FILE* file=fopen("libr.dat","rb");
+    if (file == NULL){
+        printf("No Save Data Found...\n");
+        return;
+    }
 
-// }
+    fread(bookCount,sizeof(int),1,file);
+
+    if (*bookCount < 0 || *bookCount > MAX_BOOKS) {
+    printf("Corrupted save file!\n");
+    *bookCount = 0;
+    fclose(file);
+    return;
+    }
+
+    fread(books,sizeof(Book),*bookCount,file);
+    fclose(file);
+    printf("Data Loaded Successfully.\n");
+}
+
+void resetData(Book* books,int* bookCount){
+    FILE* file=fopen("libr.dat","wb");
+    if (file == NULL){
+        printf("Unable To Reset Data...\n");
+        return;
+    }
+    int zero=0;
+    fwrite(&zero,sizeof(int),1,file);
+    *bookCount=0;
+    fclose(file);
+}
