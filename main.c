@@ -8,16 +8,17 @@ int main(){
     Book* books=(Book*)malloc(MAX_BOOKS*sizeof(*books));
     int bookCount=0;
     int isRunning=1;
-    
+    // loadData(books,&bookCount);
     while(isRunning){
         int choice;
-        printf("=====Library Inventory Manager=====\n");
-        printf("0.Exit.\n");
-        printf("1.Add Book.\n");
-        printf("2.View Books.\n");
-        printf("3.Search For A Book.\n");
-        printf("4.Delete Book.\n");//TODO: Next Commit
-        printf("5.View Deleted Books.\n");//TODO: Next Commit
+        printf("\n=====Library Inventory Manager=====\n");
+        printf("0.Exit.\n");//* Done
+        printf("1.Add Book.\n");//* Done
+        printf("2.View Books.\n");//* Done
+        printf("3.Search For A Book.\n");//* Done
+        printf("4.View Deleted Books.\n");//* Done
+        printf("5.Save Data.\n");
+        printf("6.Reset Data\n");
 
         printf("Choice:");
         
@@ -29,7 +30,7 @@ int main(){
         switch(choice){
             case 0:
                 isRunning=0;
-                 break;
+                break;
             case 1:
                 addBook(books,&bookCount);
                 break;
@@ -43,6 +44,12 @@ int main(){
                 comingSoon();
                 break;
             case 5:
+                viewDeletedBooks(books,bookCount);
+                break;
+            case 6:
+                comingSoon();
+                break;
+            case 7:
                 comingSoon();
                 break;
             default:

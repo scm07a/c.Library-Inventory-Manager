@@ -17,7 +17,7 @@ void viewAllBooks(Book* books, int bookCount);
 void maxID(Book*b, int bookCount);
 int binSearch(Book* books,int bookIndex,int targetID);
 void bubSort(Book* books, int bookCount);
-void deleteBook(Book* books, int bookCount);
+void deleteBook(Book* b);
 void viewDeletedBooks(Book* books, int bookCount);
 
 #endif
