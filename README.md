@@ -44,7 +44,7 @@ gcc main.c library.c ValidIO.c -o library
 ./library
 
 ---
-
+```
 ## How It Works
 
 - Books are stored in a static array in memory.
