@@ -1,5 +1,6 @@
 #ifndef VALIDIO_H
 #define VALIDIO_H
+#include "library.h"
 
 void clearBuffer();
 int strInput(char* str,size_t size);

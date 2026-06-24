@@ -10,6 +10,7 @@ typedef struct{
     int available;
     int isDeleted;
 } Book;
+
 void addBook(Book* books, int* bookCount);
 void printBook(Book* b);
 int searchBook(Book* books, int bookCount);
@@ -22,6 +23,4 @@ int viewDeletedBooks(Book* books, int bookCount);
 void borrowBook(Book* b);
 void returnBook(Book* b);
 void editBook(Book* b);
-
-
 #endif
