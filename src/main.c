@@ -18,7 +18,6 @@ int main(){
         printf("4.View Deleted Books.\n");
         printf("5.Save Data.\n");
         printf("6.Reset Data\n");
-
         printf("Choice:");
         
         while(!intInput(&choice)){
@@ -50,7 +49,6 @@ int main(){
             case 6:
                 resetData(books,&bookCount);
                 break;
-
             default:
                 printErr();
                 break;

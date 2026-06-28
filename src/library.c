@@ -39,6 +39,7 @@ void addBook(Book* books, int* bookCount){
     b->available=1;
     b->isDeleted=0;
 }
+
 void printBook(Book* b){
     printf("Book ID: %d\n",b->id);
     printf("Title: %s\n",b->title);
@@ -154,6 +155,7 @@ int searchBook(Book* books, int bookCount){
     }
     return change;
 }
+
 void viewAllBooks(Book* books, int bookCount){
     if (bookCount==0){
         printf("There Aren't Any Books Logged Into The System!\n");
