@@ -1,129 +1,152 @@
 # Library Inventory Manager (C)
 
-A console-based library management system written in C.  
-Built to practice data structures, file handling, and modular programming.
-
----
+A console-based Library Inventory Manager written in C, built to practice modular programming, file handling, and software design principles.
 
 ## Features
 
-- Add books
-- View all books
-- Search books by ID
-- Delete books (soft delete)
-- Restore deleted books
-- View deleted books
-- Edit book details (title, author, price)
-- Borrow / return system (availability tracking)
-- Save and load data using binary files
+* Add new books
+* View all books
+* Search books by ID
+* Edit book details (title, author, price)
+* Borrow and return books
+* Soft delete books
+* Restore deleted books
+* View deleted books
+* Persistent binary file storage
+* Reset saved library data
 
 ---
 
-## Data Persistence
+## Technologies
 
-- Uses `fwrite` / `fread` to store data in `libr.dat`
-- Automatically loads data on startup
-- Supports resetting saved data
+* C11
+* CMake
+* Binary File I/O (`fread` / `fwrite`)
+* Modular Programming
+* Git & GitHub
 
 ---
 
 ## Project Structure
 
-- `main.c` → menu system and program flow
-- `library.c` → core book operations
-- `library.h` → function declarations + Book struct
-- `ValidIO.c` → input validation functions
-- `ValidIO.h` → input validation declarations
+```text
+LibraryV2/
+├── CMakeLists.txt
+├── README.md
+├── src/
+│   ├── main.c
+│   ├── library.c
+│   └── ValidIO.c
+├── include/
+│   ├── library.h
+│   └── ValidIO.h
+├── data/
+│   └── libr.dat
+└── build/
+```
 
 ---
 
-## How to Compile
+## Building the Project
+
+Configure the project:
 
 ```bash
-gcc main.c library.c ValidIO.c -o library
-./library
+cmake -B build -G Ninja
+```
+
+Build the executable:
+
+```bash
+cmake --build build
+```
+
+Run the executable:
+
+```bash
+./build/LibraryV2
+```
+
+On Windows PowerShell:
+
+```powershell
+.\build\LibraryV2.exe
+```
 
 ---
-```
+
 ## How It Works
 
-- Books are stored in a static array in memory.
-- Each book is represented using a `struct` containing:
-  - ID
-  - Title
-  - Author
-  - Price
-  - Availability status
-  - Deletion flag
+Books are stored in a fixed-size array of `Book` structures.
 
-- Instead of removing books from memory, deletion is handled logically using a flag (`isDeleted`).
-- This allows recovery (restore feature) without losing data.
+Each book stores:
 
-- All data is persisted using binary file storage:
-  - First stores `bookCount`
-  - Then stores the full array of `Book` structs
+* ID
+* Title
+* Author
+* Price
+* Availability status
+* Deletion status
 
----
+Instead of permanently removing books, the project uses **soft deletion**, allowing deleted books to be restored later.
 
-## File Handling Logic
-
-- On **Save**:
-  - `bookCount` is written first
-  - then the `books[]` array is written using `fwrite`
-
-- On **Load**:
-  - `bookCount` is read first
-  - then that many `Book` structs are loaded into memory
-
-- On **Reset**:
-  - `bookCount` is set to 0
-  - file is overwritten with empty state
+Library data is saved to a binary file using `fwrite()` and loaded using `fread()` whenever the application starts.
 
 ---
 
-## Key Design Decisions
+## Design Decisions
 
-- Fixed-size array for simplicity and learning purposes
-- Linear search for simplicity (with ID filtering)
-- Soft delete instead of hard delete
-- Separation of concerns:
-  - UI (main)
-  - Logic (library.c)
-  - Input validation (ValidIO.c)
+* Modular project structure (`src/` and `include/`)
+* Separation of concerns:
+
+  * User interface (`main.c`)
+  * Library logic (`library.c`)
+  * Input validation (`ValidIO.c`)
+* Binary persistence
+* Soft delete instead of physical deletion
+* Fixed-size array for simplicity
 
 ---
 
 ## What I Learned
 
-- How to structure a multi-file C project
-- How binary file I/O actually works in practice
-- How to design simple CRUD systems
-- How to manage state using structs + flags
-- Why separating validation logic improves code clarity
+Through this project I practiced:
+
+* Modular C programming
+* Designing multi-file projects
+* Binary file handling
+* Struct-based data management
+* Input validation
+* CRUD application design
+* Project organization
+* Building projects with CMake
+* Version control using Git and GitHub
 
 ---
 
-## Known Limitations
+## Current Limitations
 
-- Fixed maximum capacity (`MAX_BOOKS`)
-- No dynamic memory resizing
-- No indexing optimization (linear search only)
-- No database integration
-- No concurrency or multi-user support
+* Fixed maximum number of books
+* Linear search
+* No dynamic memory allocation
+* No database backend
+* Single-user application
 
 ---
 
 ## Future Improvements
 
-- Replace array with dynamic structure (linked list / dynamic vector)
-- Improve search (hashing or indexing)
-- Add sorting by title/author
-- Add GUI version (C++ Qt / GTK)
-- Replace file system with SQLite database
-- Add user roles (admin / user system)
+* Dynamic memory allocation
+* Improved searching and sorting
+* SQLite integration
+* User authentication
+* GUI version using C++
+* Additional reporting and statistics
 
 ---
 
 ## Author
 
-Mohamed — C programming learning project focused on building real-world system design skills.
+Mohamed
+
+A personal learning project created to strengthen C programming fundamentals while applying real-world software engineering practices.
