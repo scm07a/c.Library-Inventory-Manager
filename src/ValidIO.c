@@ -37,7 +37,7 @@ void comingSoon(){
 }
 
 void saveData(Book* books,int bookCount){
-    FILE* file=fopen("libr.dat","wb");
+    FILE* file=fopen("data/libr.dat","wb");
     if (file == NULL){
         printf("Couldn't open file for saving.\n");
         return;
@@ -50,7 +50,7 @@ void saveData(Book* books,int bookCount){
 }
 
 void loadData(Book* books,int*bookCount){
-    FILE* file=fopen("libr.dat","rb");
+    FILE* file=fopen("data/libr.dat","rb");
     if (file == NULL){
         printf("No Save Data Found...\n");
         return;
@@ -71,7 +71,7 @@ void loadData(Book* books,int*bookCount){
 }
 
 void resetData(Book* books,int* bookCount){
-    FILE* file=fopen("libr.dat","wb");
+    FILE* file=fopen("data/libr.dat","wb");
     if (file == NULL){
         printf("Unable To Reset Data...\n");
         return;

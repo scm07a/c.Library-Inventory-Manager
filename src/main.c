@@ -4,7 +4,6 @@
 #include "ValidIO.h"
 
 int main(){
-    
     Book* books=(Book*)malloc(MAX_BOOKS*sizeof(*books));
     int bookCount=0;
     int isRunning=1;
